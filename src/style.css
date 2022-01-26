@@ -1,0 +1,89 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: #fff;
+  --letter-outline-color: lightgrey;
+  --keyboard-key-background-color: lightgrey;
+
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000;
+    --letter-outline-color: grey;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  user-select: none;
+}
+
+.wordle {
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 3rem;
+}
+
+.attempt {
+  display: flex;
+  gap: 1rem;
+}
+
+.attempt:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.letter {
+  position: relative;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  border: 1px solid var(--letter-outline-color);
+}
+
+.letter::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.letter-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+}
+
+.keyboard-row:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.keyboard-key {
+  text-align: center;
+  line-height: 3rem;
+  background: var(--keyboard-key-background-color);
+  border-radius: 0.5rem;
+  flex-basis: 2rem;
+  padding: 0 0.5rem;
+}
+
+.keyboard-key:not(:last-child) {
+  margin-right: 0.5rem;
+}
