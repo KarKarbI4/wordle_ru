@@ -1,5 +1,9 @@
 import { assert, describe, expect, test } from "vitest";
-import { calculateAttemptResult } from "./game";
+import {
+  calculateAttemptResult,
+  updateKeyboardState,
+  KeyboardState,
+} from "./game";
 
 describe("Test calculateAttemptResult", () => {
   test("Наивная проверка", () => {
@@ -24,5 +28,31 @@ describe("Test calculateAttemptResult", () => {
     expect(
       calculateAttemptResult({ solution: "сумка", attempt: "спрос" })
     ).toEqual(["green", "gray", "gray", "gray", "gray"]);
+  });
+});
+
+describe("Test updateKeyboardState", () => {
+  test("Все кейсы в одном, лол", () => {
+    const currentState: KeyboardState = {
+      а: "gray",
+      б: "yellow",
+      в: "green",
+    };
+
+    expect(
+      updateKeyboardState(currentState, "абвгд", [
+        "gray",
+        "green",
+        "yellow",
+        "gray",
+        "yellow",
+      ])
+    ).toEqual({
+      а: "gray",
+      б: "green",
+      в: "green",
+      г: "gray",
+      д: "yellow",
+    });
   });
 });

@@ -7,30 +7,49 @@
 // `
 
 import { attachKeyboardProcessor } from "./keyboardProcessor";
-import { setAttempt } from "./ui";
+import { Game } from "./game";
 import { attachVirtualKeyboardListeners } from "./virtualKeyboard";
 import { attachPhysicalKeyboardListeners } from "./physicalKeyboard";
+import { setAttempt, setAttemptResult, setKeyboardState } from "./ui";
 
 console.log("init main.ts");
 
-function onType(attempt: string) {
-  console.log("type", attempt);
-  setAttempt(attempt, 0);
-}
+const game = new Game({ keyboardState: {}, currentAttemptIndex: 0 });
 
-function onCommit(attempt: string) {
-  console.log("commit", attempt);
-}
+attachPhysicalKeyboardListeners();
+attachVirtualKeyboardListeners();
+const deattachKeyboardProcessor = attachKeyboardProcessor({
+  typeCallback: onLetterType,
+  commitCallback: onEnter,
+  lettersLimitCallback: onLettersLimitCallback,
+});
 
 function onLettersLimitCallback() {
   console.log("ПЕРЕСТАНЬ НАБИРАТЬ");
 }
 
-attachKeyboardProcessor({
-  typeCallback: onType,
-  commitCallback: onCommit,
-  lettersLimitCallback: onLettersLimitCallback,
+function onLetterType(attempt: string) {
+  setAttempt(attempt, game.currentAttemptIndex);
+}
+
+function onEnter(attempt: string) {
+  const success = game.commitAttempt(attempt);
+  return { success };
+}
+
+game.on("attemptcommit", (event) => {
+  setAttemptResult(event.attemptIndex, event.attemptResult);
+  setKeyboardState(event.keyboardState);
 });
 
-attachPhysicalKeyboardListeners();
-attachVirtualKeyboardListeners();
+game.on("notindictionary", () => console.log("слова нет в словаре!"));
+
+game.on("gamefail", () => {
+  console.log("Ха лох");
+  deattachKeyboardProcessor();
+});
+
+game.on("gamewin", () => {
+  console.log("ха выиграл!!!");
+  deattachKeyboardProcessor();
+});

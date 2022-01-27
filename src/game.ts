@@ -1,29 +1,77 @@
+import { MAX_ATTEMPTS } from "./constants";
+import { createNanoEvents } from "nanoevents";
 import { dictionary } from "./dictionary";
 
-const solution = "кошка";
+const solution = "КОШКА";
 
 type LetterState = "gray" | "yellow" | "green";
 
-type AttemptResult = LetterState[];
+export type AttemptResult = LetterState[];
 
-const attempt: AttemptResult = ["gray", "yellow", "green", "green", "green"];
+export type KeyboardState = { [key: string]: LetterState };
 
-function commitAttempt(attempt: string) {
-  if (attempt === solution) {
-    // ui.win();
-    return;
-  }
-  if (!dictionary.has(attempt)) {
-    // ui.notInDictionary();
-    return;
-  }
+type GameState = {
+  keyboardState: KeyboardState;
+  currentAttemptIndex: number;
+};
 
-  const attemptResult = calculateAttemptResult({ solution, attempt });
-  // ui.paintAttempt(attemptResult);
-  // saveStateToLS(attemptResult);
+interface GameEvents {
+  attemptcommit: (options: {
+    attemptIndex: number;
+    attempt: string;
+    attemptResult: AttemptResult;
+    keyboardState: KeyboardState;
+  }) => void;
+  gamewin: () => void;
+  gamefail: () => void;
+  notindictionary: () => void;
 }
 
-function saveAttemptToLS() {}
+export class Game {
+  keyboardState: KeyboardState;
+  currentAttemptIndex: number;
+
+  private emitter = createNanoEvents<GameEvents>();
+
+  constructor({ keyboardState, currentAttemptIndex }: GameState) {
+    this.keyboardState = keyboardState;
+    this.currentAttemptIndex = currentAttemptIndex;
+  }
+
+  on<E extends keyof GameEvents>(event: E, callback: GameEvents[E]) {
+    return this.emitter.on(event, callback);
+  }
+
+  commitAttempt(attempt: string) {
+    if (!dictionary.has(attempt)) {
+      this.emitter.emit("notindictionary");
+      return false;
+    }
+
+    if (attempt === solution) {
+      this.emitter.emit("gamewin");
+    } else if (this.currentAttemptIndex >= MAX_ATTEMPTS - 1) {
+      this.emitter.emit("gamefail");
+    }
+
+    const attemptResult = calculateAttemptResult({ solution, attempt });
+    this.keyboardState = updateKeyboardState(
+      this.keyboardState,
+      attempt,
+      attemptResult
+    );
+
+    this.emitter.emit("attemptcommit", {
+      attemptIndex: this.currentAttemptIndex,
+      attempt,
+      attemptResult,
+      keyboardState: this.keyboardState,
+    });
+
+    this.currentAttemptIndex += 1;
+    return true;
+  }
+}
 
 export function calculateAttemptResult({
   solution,
@@ -70,4 +118,26 @@ export function calculateAttemptResult({
   }
 
   return attemptResult;
+}
+
+export function updateKeyboardState(
+  currentState: KeyboardState,
+  attempt: string,
+  attemptResult: AttemptResult
+) {
+  const newState = { ...currentState };
+
+  for (let i = 0; i < attempt.length; i++) {
+    const letter = attempt[i];
+
+    if (attemptResult[i] === "green") {
+      newState[letter] = "green";
+    } else if (attemptResult[i] === "yellow" && newState[letter] !== "green") {
+      newState[letter] = "yellow";
+    } else if (attemptResult[i] === "gray" && !currentState[letter]) {
+      newState[letter] = "gray";
+    }
+  }
+
+  return newState;
 }

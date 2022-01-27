@@ -7,7 +7,10 @@
 :root {
   --background-color: #fff;
   --letter-outline-color: lightgrey;
-  --keyboard-key-background-color: lightgrey;
+  --keyboard-key-default-background-color: lightgrey;
+  --green-background-color: green;
+  --yellow-background-color: yellow;
+  --gray-background-color: gray;
 
   font-size: 16px;
   font-family: sans-serif;
@@ -41,18 +44,63 @@ body {
   margin-bottom: 1rem;
 }
 
+.attempt-invalid {
+  animation: shake 0.15s 5;
+}
+
 .letter {
   position: relative;
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 0;
   border: 1px solid var(--letter-outline-color);
+  perspective: 100px;
 }
 
 .letter::after {
   content: "";
   display: block;
   padding-bottom: 100%;
+}
+
+.letter-pop {
+  animation: pop 0.5s linear;
+}
+
+.letter-green {
+  --letter-reveal-background-color: var(--green-background-color);
+}
+
+.letter-yellow {
+  --letter-reveal-background-color: var(--yellow-background-color);
+}
+
+.letter-gray {
+  --letter-reveal-background-color: var(--gray-background-color);
+}
+
+.letter-reveal {
+  animation: reveal 0.5s linear forwards;
+}
+
+.letter-reveal:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.letter-reveal:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.letter-reveal:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.letter-reveal:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.letter-reveal:nth-child(5) {
+  animation-delay: 0.4s;
 }
 
 .letter-inner {
@@ -78,7 +126,7 @@ body {
 .keyboard-key {
   text-align: center;
   line-height: 3rem;
-  background: var(--keyboard-key-background-color);
+  background: var(--keyboard-key-default-background-color);
   border-radius: 0.5rem;
   flex-basis: 2rem;
   padding: 0 0.5rem;
@@ -86,4 +134,72 @@ body {
 
 .keyboard-key:not(:last-child) {
   margin-right: 0.5rem;
+}
+
+.keyboard-key-green {
+  background-color: var(--green-background-color);
+}
+
+.keyboard-key-yellow {
+  background-color: var(--yellow-background-color);
+}
+
+.keyboard-key-gray {
+  background-color: var(--gray-background-color);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes reveal {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--background-color);
+    border-color: var(--letter-outline-color);
+  }
+
+  50% {
+    transform: rotateX(90deg);
+    background-color: var(--background-color);
+    border-color: var(--letter-outline-color);
+  }
+
+  50.00001% {
+    transform: rotateX(270deg);
+    background-color: var(--letter-reveal-background-color);
+    border-color: var(--letter-reveal-background-color);
+  }
+
+  100% {
+    transform: rotateX(360deg);
+    background-color: var(--letter-reveal-background-color);
+    border-color: var(--letter-reveal-background-color);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(1rem);
+  }
+
+  75% {
+    transform: translateX(-1rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
