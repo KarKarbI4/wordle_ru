@@ -983,4 +983,5 @@ export const dictionary = new Set([
   "ПАПИЧ",
   "ДУДЕЦ",
   "ПЕНИС",
+  "СЕРСО",
 ]);

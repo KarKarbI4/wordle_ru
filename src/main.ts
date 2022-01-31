@@ -18,10 +18,16 @@ import {
   notify,
 } from "./ui";
 import * as modal from "./modal";
+import { MAX_ATTEMPTS } from "./constants";
 
 console.log("init main.ts");
 
-const game = new Game({ keyboardState: {}, currentAttemptIndex: 0 });
+const game = new Game({
+  solution: "КОШКА",
+  keyboardState: {},
+  currentAttemptIndex: 0,
+  maxAttempts: MAX_ATTEMPTS,
+});
 
 attachPhysicalKeyboardListeners();
 attachVirtualKeyboardListeners();

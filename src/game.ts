@@ -1,18 +1,17 @@
-import { MAX_ATTEMPTS } from "./constants";
 import { createNanoEvents } from "nanoevents";
 import { dictionary } from "./dictionary";
 
-const solution = "КОШКА";
-
-type LetterState = "gray" | "yellow" | "green";
+export type LetterState = "gray" | "yellow" | "green";
 
 export type AttemptResult = LetterState[];
 
 export type KeyboardState = { [key: string]: LetterState };
 
-type GameState = {
+export type GameState = {
   keyboardState: KeyboardState;
   currentAttemptIndex: number;
+  solution: string;
+  maxAttempts: number;
 };
 
 interface GameEvents {
@@ -30,12 +29,21 @@ interface GameEvents {
 export class Game {
   keyboardState: KeyboardState;
   currentAttemptIndex: number;
+  solution: string;
+  maxAttempts: number;
 
   private emitter = createNanoEvents<GameEvents>();
 
-  constructor({ keyboardState, currentAttemptIndex }: GameState) {
+  constructor({
+    keyboardState,
+    currentAttemptIndex,
+    solution,
+    maxAttempts,
+  }: GameState) {
     this.keyboardState = keyboardState;
     this.currentAttemptIndex = currentAttemptIndex;
+    this.solution = solution;
+    this.maxAttempts = maxAttempts;
   }
 
   on<E extends keyof GameEvents>(event: E, callback: GameEvents[E]) {
@@ -51,13 +59,16 @@ export class Game {
       return false;
     }
 
-    if (attempt === solution) {
+    if (attempt === this.solution) {
       this.emitter.emit("gamewin", { attemptIndex: this.currentAttemptIndex });
-    } else if (this.currentAttemptIndex >= MAX_ATTEMPTS - 1) {
-      this.emitter.emit("gamefail", { solution });
+    } else if (this.currentAttemptIndex >= this.maxAttempts - 1) {
+      this.emitter.emit("gamefail", { solution: this.solution });
     }
 
-    const attemptResult = calculateAttemptResult({ solution, attempt });
+    const attemptResult = calculateAttemptResult({
+      solution: this.solution,
+      attempt,
+    });
     this.keyboardState = updateKeyboardState(
       this.keyboardState,
       attempt,
@@ -76,6 +87,7 @@ export class Game {
   }
 }
 
+// for test
 export function calculateAttemptResult({
   solution,
   attempt,
@@ -123,6 +135,7 @@ export function calculateAttemptResult({
   return attemptResult;
 }
 
+// for test
 export function updateKeyboardState(
   currentState: KeyboardState,
   attempt: string,
@@ -137,7 +150,7 @@ export function updateKeyboardState(
       newState[letter] = "green";
     } else if (attemptResult[i] === "yellow" && newState[letter] !== "green") {
       newState[letter] = "yellow";
-    } else if (attemptResult[i] === "gray" && !currentState[letter]) {
+    } else if (attemptResult[i] === "gray" && !newState[letter]) {
       newState[letter] = "gray";
     }
   }
