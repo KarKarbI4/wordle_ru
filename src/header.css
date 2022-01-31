@@ -1,0 +1,32 @@
+.wordle-header {
+  border-bottom: 1px solid var(--letter-outline-color);
+  flex: 3rem 0 0;
+  text-align: center;
+  position: relative;
+}
+
+.wordle-header-text {
+  all: unset;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  letter-spacing: 5px;
+}
+
+.wordle-header__right {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.wordle-header__left {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.wordle-header__stats {
+  all: unset;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+}

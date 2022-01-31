@@ -22,9 +22,9 @@ interface GameEvents {
     attemptResult: AttemptResult;
     keyboardState: KeyboardState;
   }) => void;
-  gamewin: () => void;
-  gamefail: () => void;
-  notindictionary: () => void;
+  gamewin: (options: { attemptIndex: number }) => void;
+  gamefail: (options: { solution: string }) => void;
+  notindictionary: (options: { attemptIndex: number; attempt: string }) => void;
 }
 
 export class Game {
@@ -44,14 +44,17 @@ export class Game {
 
   commitAttempt(attempt: string) {
     if (!dictionary.has(attempt)) {
-      this.emitter.emit("notindictionary");
+      this.emitter.emit("notindictionary", {
+        attempt,
+        attemptIndex: this.currentAttemptIndex,
+      });
       return false;
     }
 
     if (attempt === solution) {
-      this.emitter.emit("gamewin");
+      this.emitter.emit("gamewin", { attemptIndex: this.currentAttemptIndex });
     } else if (this.currentAttemptIndex >= MAX_ATTEMPTS - 1) {
-      this.emitter.emit("gamefail");
+      this.emitter.emit("gamefail", { solution });
     }
 
     const attemptResult = calculateAttemptResult({ solution, attempt });

@@ -1,3 +1,6 @@
+@import "./modal.css";
+@import "./header.css";
+
 *,
 *::before,
 *::after {
@@ -6,11 +9,17 @@
 
 :root {
   --background-color: #fff;
-  --letter-outline-color: lightgrey;
-  --keyboard-key-default-background-color: lightgrey;
-  --green-background-color: green;
-  --yellow-background-color: yellow;
-  --gray-background-color: gray;
+  --letter-outline-color: #e8e9eb;
+  --keyboard-key-default-background-color: #e8e9eb;
+  --green-background-color: #77c66e;
+  --green-text-color: #fff;
+  --yellow-background-color: #ffd300;
+  --yellow-text-color: #000;
+  --gray-background-color: #acada8;
+  --gray-text-color: #fff;
+  --notification-background-color: rgba(0, 0, 0, 0.6);
+  --notification-text-color: #fff;
+  --backdrop-background-color: rgba(0, 0, 0, 0.3);
 
   font-size: 16px;
   font-family: sans-serif;
@@ -23,28 +32,46 @@
   }
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   background-color: var(--background-color);
   user-select: none;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .wordle {
+  flex-grow: 1;
+  width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  padding-top: 3rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .attempt {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .attempt:not(:last-child) {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.attempt-invalid {
+.attempt-shake {
   animation: shake 0.15s 5;
 }
 
@@ -53,7 +80,7 @@ body {
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 0;
-  border: 1px solid var(--letter-outline-color);
+  border: 2px solid var(--letter-outline-color);
   perspective: 100px;
 }
 
@@ -69,14 +96,17 @@ body {
 
 .letter-green {
   --letter-reveal-background-color: var(--green-background-color);
+  --letter-reveal-text-color: var(--green-text-color);
 }
 
 .letter-yellow {
   --letter-reveal-background-color: var(--yellow-background-color);
+  --letter-reveal-text-color: var(--yellow-text-color);
 }
 
 .letter-gray {
   --letter-reveal-background-color: var(--gray-background-color);
+  --letter-reveal-text-color: var(--gray-text-color);
 }
 
 .letter-reveal {
@@ -113,6 +143,11 @@ body {
   font-size: 3rem;
 }
 
+.keyboard {
+  padding: 0 0.5rem 1rem;
+  flex-shrink: 0;
+}
+
 .keyboard-row {
   display: flex;
   justify-content: center;
@@ -120,32 +155,52 @@ body {
 }
 
 .keyboard-row:not(:last-child) {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .keyboard-key {
+  font: inherit;
   text-align: center;
   line-height: 3rem;
   background: var(--keyboard-key-default-background-color);
-  border-radius: 0.5rem;
+  border: 0;
+  border-radius: 0.25rem;
   flex-basis: 2rem;
-  padding: 0 0.5rem;
+  padding: 0 1%;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .keyboard-key:not(:last-child) {
-  margin-right: 0.5rem;
+  margin-right: 0.25rem;
 }
 
 .keyboard-key-green {
   background-color: var(--green-background-color);
+  color: var(--green-text-color);
 }
 
 .keyboard-key-yellow {
   background-color: var(--yellow-background-color);
+  color: var(--yellow-text-color);
 }
 
 .keyboard-key-gray {
   background-color: var(--gray-background-color);
+  color: var(--gray-text-color);
+}
+
+.notification {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  background-color: var(--notification-background-color);
+  color: var(--notification-text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  --transform: translateX(-50%);
+  transform: var(--transform);
+  animation: slide 1s;
 }
 
 @keyframes pop {
@@ -177,12 +232,14 @@ body {
     transform: rotateX(270deg);
     background-color: var(--letter-reveal-background-color);
     border-color: var(--letter-reveal-background-color);
+    color: var(--letter-reveal-text-color);
   }
 
   100% {
     transform: rotateX(360deg);
     background-color: var(--letter-reveal-background-color);
     border-color: var(--letter-reveal-background-color);
+    color: var(--letter-reveal-text-color);
   }
 }
 
@@ -201,5 +258,17 @@ body {
 
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(-1rem) var(--transform);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0) var(--transform);
+    opacity: 1;
   }
 }

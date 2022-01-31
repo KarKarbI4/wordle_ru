@@ -1,0 +1,66 @@
+.modal {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.modal-backdrop {
+  position: fixed;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--backdrop-background-color);
+  animation: appear-animation ease-out 300ms;
+}
+
+@keyframes appear-animation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes disappear-animation {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  padding-top: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.modal-header {
+  font-size: 2rem;
+}
+
+.modal-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  cursor: pointer;
+}
+
+.modal-hidden {
+  display: none;
+}
+
+.modal-hidden-animate {
+  animation: disappear-animation ease-out 300ms forwards;
+}

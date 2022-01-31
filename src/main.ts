@@ -10,7 +10,14 @@ import { attachKeyboardProcessor } from "./keyboardProcessor";
 import { Game } from "./game";
 import { attachVirtualKeyboardListeners } from "./virtualKeyboard";
 import { attachPhysicalKeyboardListeners } from "./physicalKeyboard";
-import { setAttempt, setAttemptResult, setKeyboardState } from "./ui";
+import {
+  setAttempt,
+  setAttemptResult,
+  setKeyboardState,
+  rejectAttempt,
+  notify,
+} from "./ui";
+import * as modal from "./modal";
 
 console.log("init main.ts");
 
@@ -42,14 +49,22 @@ game.on("attemptcommit", (event) => {
   setKeyboardState(event.keyboardState);
 });
 
-game.on("notindictionary", () => console.log("слова нет в словаре!"));
+game.on("notindictionary", (event) => {
+  notify("Такого слова нет в игре");
+  rejectAttempt(event.attemptIndex);
+});
 
-game.on("gamefail", () => {
-  console.log("Ха лох");
+game.on("gamefail", (event) => {
+  notify(event.solution);
   deattachKeyboardProcessor();
 });
 
-game.on("gamewin", () => {
-  console.log("ха выиграл!!!");
+game.on("gamewin", (event) => {
+  notify(
+    ["Гениально!", "Восхитительно!", "Отлично!!", "Нормик!", "Пронесло!"][
+      event.attemptIndex
+    ]
+  );
+  modal.showModal();
   deattachKeyboardProcessor();
 });
