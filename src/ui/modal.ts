@@ -1,4 +1,4 @@
-import { applyAnimationOnce } from "./ui";
+import { applyAnimationOnce } from "./lib/applyAnimationOnce";
 
 const crossElement = document.querySelector(".modal-close");
 

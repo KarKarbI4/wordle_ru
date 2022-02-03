@@ -1,0 +1,55 @@
+@import "./gameField.css";
+@import "./header.css";
+@import "./modal.css";
+@import "./notification.css";
+@import "./virtualKeyboard.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: #fff;
+  --letter-outline-color: #e8e9eb;
+  --keyboard-key-default-background-color: #e8e9eb;
+  --green-background-color: #77c66e;
+  --green-text-color: #fff;
+  --yellow-background-color: #ffd300;
+  --yellow-text-color: #000;
+  --gray-background-color: #acada8;
+  --gray-text-color: #fff;
+  --notification-background-color: rgba(0, 0, 0, 0.6);
+  --notification-text-color: #fff;
+  --backdrop-background-color: rgba(0, 0, 0, 0.3);
+
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #000;
+    --letter-outline-color: grey;
+  }
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  user-select: none;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}

@@ -1,0 +1,24 @@
+.notification {
+  position: fixed;
+  top: 4rem;
+  left: 50%;
+  background-color: var(--notification-background-color);
+  color: var(--notification-text-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  --transform: translateX(-50%);
+  transform: var(--transform);
+  animation: slide 1s;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateY(-1rem) var(--transform);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0) var(--transform);
+    opacity: 1;
+  }
+}

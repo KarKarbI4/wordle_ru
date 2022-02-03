@@ -1,0 +1,46 @@
+.keyboard {
+  padding: 0 0.5rem 1rem;
+  flex-shrink: 0;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+}
+
+.keyboard-row:not(:last-child) {
+  margin-bottom: 0.25rem;
+}
+
+.keyboard-key {
+  font: inherit;
+  text-align: center;
+  line-height: 3rem;
+  background: var(--keyboard-key-default-background-color);
+  border: 0;
+  border-radius: 0.25rem;
+  flex-basis: 2rem;
+  padding: 0 1%;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.keyboard-key:not(:last-child) {
+  margin-right: 0.25rem;
+}
+
+.keyboard-key-green {
+  background-color: var(--green-background-color);
+  color: var(--green-text-color);
+}
+
+.keyboard-key-yellow {
+  background-color: var(--yellow-background-color);
+  color: var(--yellow-text-color);
+}
+
+.keyboard-key-gray {
+  background-color: var(--gray-background-color);
+  color: var(--gray-text-color);
+}

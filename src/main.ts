@@ -1,23 +1,14 @@
-// const app = document.querySelector<HTMLDivElement>('#app')!
-
-// app.innerHTML = `
-//   <h1>Hello Vite!</h1>
-//   <h1>Govno</h1>
-//   <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-// `
-
+import "./ui/main";
 import { attachKeyboardProcessor } from "./keyboardProcessor";
 import { Game } from "./game";
-import { attachVirtualKeyboardListeners } from "./virtualKeyboard";
 import { attachPhysicalKeyboardListeners } from "./physicalKeyboard";
+import { setAttempt, setAttemptResult, rejectAttempt } from "./ui/gameField";
 import {
-  setAttempt,
-  setAttemptResult,
+  attachVirtualKeyboardListeners,
   setKeyboardState,
-  rejectAttempt,
-  notify,
-} from "./ui";
-import * as modal from "./modal";
+} from "./ui/virtualKeyboard";
+import { notify } from "./ui/notification";
+import * as modal from "./ui/modal";
 import { MAX_ATTEMPTS } from "./constants";
 
 console.log("init main.ts");
