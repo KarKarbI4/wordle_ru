@@ -10,6 +10,7 @@ import {
 import { notify } from "./ui/notification";
 import * as modal from "./ui/modal";
 import { MAX_ATTEMPTS } from "./constants";
+import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
 
 console.log("init main.ts");
 
@@ -41,6 +42,12 @@ function onEnter(attempt: string) {
   return { success };
 }
 
+function updateGameStats(status: "win" | "fail") {
+  const prevStats = loadGameStats();
+  const newStats = calculateGameStats({ status, currentState: prevStats });
+  saveGameStats(newStats);
+}
+
 game.on("attemptcommit", (event) => {
   setAttemptResult(event.attemptIndex, event.attemptResult);
   setKeyboardState(event.keyboardState);
@@ -53,6 +60,7 @@ game.on("notindictionary", (event) => {
 
 game.on("gamefail", (event) => {
   notify(event.solution);
+  updateGameStats("fail");
   deattachKeyboardProcessor();
 });
 
@@ -63,5 +71,6 @@ game.on("gamewin", (event) => {
     ]
   );
   modal.showModal();
+  updateGameStats("win");
   deattachKeyboardProcessor();
 });
