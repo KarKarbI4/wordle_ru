@@ -11,11 +11,21 @@ import { notify } from "./ui/notification";
 import * as modal from "./ui/modal";
 import { MAX_ATTEMPTS } from "./constants";
 import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
-
+import { solutionForDate } from "./solutionPicker";
+import { solutions } from "./solutions";
 console.log("init main.ts");
 
+const startWordDate = new Date(2022, 1, 6); // 6 марта 2022 года
+
+const solution = solutionForDate({
+  solutions,
+  date: new Date(),
+  startWordDate,
+});
+
+console.log(solution);
 const game = new Game({
-  solution: "КОШКА",
+  solution,
   keyboardState: {},
   currentAttemptIndex: 0,
   maxAttempts: MAX_ATTEMPTS,
