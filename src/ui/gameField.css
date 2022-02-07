@@ -14,6 +14,10 @@
   gap: 0.5rem;
 }
 
+.attempt_init {
+  color: transparent;
+}
+
 .attempt:not(:last-child) {
   margin-bottom: 0.5rem;
 }
@@ -29,12 +33,17 @@
   flex-shrink: 0;
   border: 2px solid var(--letter-outline-color);
   perspective: 100px;
+  will-change: transform;
 }
 
 .letter::after {
   content: "";
   display: block;
   padding-bottom: 100%;
+}
+
+.attempt_init .letter-pop {
+  animation-duration: 0;
 }
 
 .letter-pop {

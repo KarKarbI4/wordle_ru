@@ -2,7 +2,7 @@ import "./ui/main";
 import { attachKeyboardProcessor } from "./keyboardProcessor";
 import { Game } from "./game";
 import { attachPhysicalKeyboardListeners } from "./physicalKeyboard";
-import { setAttempt, setAttemptResult, rejectAttempt } from "./ui/gameField";
+import * as gameField from "./ui/gameField";
 import {
   attachVirtualKeyboardListeners,
   setKeyboardState,
@@ -13,17 +13,18 @@ import { MAX_ATTEMPTS } from "./constants";
 import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
 import { solutionForDate } from "./solutionPicker";
 import { solutions } from "./solutions";
+import { attachGameSessionStore } from "./gameSessionStore";
 console.log("init main.ts");
 
 const startWordDate = new Date(2022, 1, 6); // 6 марта 2022 года
+const currentDate = new Date();
 
 const solution = solutionForDate({
   solutions,
-  date: new Date(),
+  date: currentDate,
   startWordDate,
 });
 
-console.log(solution);
 const game = new Game({
   solution,
   keyboardState: {},
@@ -44,7 +45,7 @@ function onLettersLimitCallback() {
 }
 
 function onLetterType(attempt: string) {
-  setAttempt(attempt, game.currentAttemptIndex);
+  gameField.setAttempt({ attempt, attemptIndex: game.currentAttemptIndex });
 }
 
 function onEnter(attempt: string) {
@@ -59,13 +60,17 @@ function updateGameStats(status: "win" | "fail") {
 }
 
 game.on("attemptcommit", (event) => {
-  setAttemptResult(event.attemptIndex, event.attemptResult);
+  gameField.setAttemptResult(event.attemptIndex, event.attemptResult);
+  gameField.setAttempt({
+    attempt: event.attempt,
+    attemptIndex: event.attemptIndex,
+  });
   setKeyboardState(event.keyboardState);
 });
 
 game.on("notindictionary", (event) => {
   notify("Такого слова нет в игре");
-  rejectAttempt(event.attemptIndex);
+  gameField.rejectAttempt(event.attemptIndex);
 });
 
 game.on("gamefail", (event) => {
@@ -84,3 +89,5 @@ game.on("gamewin", (event) => {
   updateGameStats("win");
   deattachKeyboardProcessor();
 });
+
+attachGameSessionStore({ game, startWordDate, currentDate });

@@ -26,7 +26,26 @@ const getLetterEl = (attemptEl: Element, letterIndex: number) => {
   return letterEl;
 };
 
-export function setAttempt(attempt: string, attemptIndex: number) {
+export function initAttempts(numberOfAttempts: number) {
+  console.log(numberOfAttempts);
+  const attemptEls = document.querySelectorAll(
+    `.attempt:not(:nth-child(n+${numberOfAttempts + 1}))`
+  );
+
+  attemptEls.forEach((element) => {
+    element.classList.add("attempt_init");
+  });
+}
+
+export function setAttempt({
+  attempt,
+  attemptIndex,
+  isInit = false,
+}: {
+  attempt: string;
+  attemptIndex: number;
+  isInit?: boolean;
+}) {
   const attemptEl = getAttemptEl(attemptIndex);
 
   for (let letterIndex = 0; letterIndex + 1 <= ATTEMPT_LENGTH; letterIndex++) {

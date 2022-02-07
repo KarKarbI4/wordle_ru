@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { test, expect } from "vitest";
 import { diffInDays, solutionForDate } from "./solutionPicker";
 
 const FEBRUARY_INDEX = 1;
