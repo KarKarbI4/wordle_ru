@@ -54,7 +54,7 @@ function onEnter(attempt: string) {
 }
 
 function updateGameStats(status: "win" | "fail") {
-  const prevStats = loadGameStats({ numberOfTheDay });
+  const prevStats = loadGameStats();
   const newStats = calculateGameStats({
     status,
     currentState: prevStats,
@@ -65,7 +65,7 @@ function updateGameStats(status: "win" | "fail") {
 
 function onGameFinish() {
   deattachKeyboardProcessor();
-  modal.showModal();
+  modal.showModal(loadGameStats());
 }
 
 game.on("attemptcommit", (event) => {

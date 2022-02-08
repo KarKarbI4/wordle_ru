@@ -1,23 +1,18 @@
-type GameStats = {
+export type GameStats = {
   totalPlayed: number;
   totalWins: number;
   currentStreak: number;
   maxStreak: number;
-  numberOfTheDay: number;
+  numberOfTheDay?: number;
 };
 
-export function loadGameStats({
-  numberOfTheDay,
-}: {
-  numberOfTheDay: number;
-}): GameStats {
+export function loadGameStats(): GameStats {
   const gameStats = localStorage.getItem("game_stats");
   if (gameStats) {
     return JSON.parse(gameStats) as GameStats;
   }
 
   return {
-    numberOfTheDay,
     totalPlayed: 0,
     totalWins: 0,
     currentStreak: 0,
@@ -45,7 +40,9 @@ export function calculateGameStats({
 
   let currentStreak: number;
   if (status === "win") {
-    const isNextDay = numberOfTheDay === currentState.numberOfTheDay + 1;
+    const isNextDay =
+      currentState.numberOfTheDay &&
+      numberOfTheDay === currentState.numberOfTheDay + 1;
     currentStreak = isNextDay ? currentState.currentStreak + 1 : 1;
   } else {
     currentStreak = 0;

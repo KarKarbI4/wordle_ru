@@ -1,7 +1,7 @@
 .modal {
-  width: fit-content;
   height: fit-content;
   position: relative;
+  width: 90%;
 }
 
 .modal-backdrop {
@@ -42,12 +42,14 @@
   border-radius: 0.75rem;
   padding: 1rem;
   padding-top: 2rem;
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .modal-header {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .modal-close {
@@ -63,4 +65,23 @@
 
 .modal-hidden-animate {
   animation: disappear-animation ease-out 300ms forwards;
+}
+
+.modal-stats {
+  display: flex;
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.stats-item__value {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.stats-item__text {
+  text-align: center;
 }
