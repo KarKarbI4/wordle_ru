@@ -11,13 +11,13 @@ import { notify } from "./ui/notification";
 import * as modal from "./ui/modal";
 import { MAX_ATTEMPTS } from "./constants";
 import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
-import { solutionForDate } from "./solutionPicker";
+import { calcNumberOfTheDay, solutionForDate } from "./solutionPicker";
 import { solutions } from "./solutions";
 import { attachGameSessionStore } from "./gameSessionStore";
-console.log("init main.ts");
 
 const startWordDate = new Date(2022, 1, 6); // 6 марта 2022 года
 const currentDate = new Date();
+const numberOfTheDay = calcNumberOfTheDay(startWordDate, currentDate);
 
 const solution = solutionForDate({
   solutions,
@@ -54,8 +54,12 @@ function onEnter(attempt: string) {
 }
 
 function updateGameStats(status: "win" | "fail") {
-  const prevStats = loadGameStats();
-  const newStats = calculateGameStats({ status, currentState: prevStats });
+  const prevStats = loadGameStats({ numberOfTheDay });
+  const newStats = calculateGameStats({
+    status,
+    currentState: prevStats,
+    numberOfTheDay,
+  });
   saveGameStats(newStats);
 }
 

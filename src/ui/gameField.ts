@@ -27,7 +27,6 @@ const getLetterEl = (attemptEl: Element, letterIndex: number) => {
 };
 
 export function initAttempts(numberOfAttempts: number) {
-  console.log(numberOfAttempts);
   const attemptEls = document.querySelectorAll(
     `.attempt:not(:nth-child(n+${numberOfAttempts + 1}))`
   );

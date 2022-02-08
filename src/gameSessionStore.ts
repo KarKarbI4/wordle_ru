@@ -1,5 +1,5 @@
 import { Game } from "./game";
-import { numberOfTheDay } from "./solutionPicker";
+import { calcNumberOfTheDay } from "./solutionPicker";
 import { initAttempts } from "./ui/gameField";
 
 type GameSessionStore = {
@@ -35,7 +35,7 @@ export function attachGameSessionStore({
   if (
     prevGameSession &&
     prevGameSession.numberOfTheDay ===
-      numberOfTheDay(startWordDate, currentDate)
+      calcNumberOfTheDay(startWordDate, currentDate)
   ) {
     initAttempts(prevGameSession.attempts.length);
     for (const attempt of prevGameSession.attempts) {
@@ -51,7 +51,7 @@ export function attachGameSessionStore({
     } else {
       prevGameSession = {
         attempts: [attempt],
-        numberOfTheDay: numberOfTheDay(startWordDate, currentDate),
+        numberOfTheDay: calcNumberOfTheDay(startWordDate, currentDate),
       };
     }
 

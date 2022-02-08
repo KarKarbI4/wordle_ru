@@ -11,7 +11,7 @@ function toUTCTimestamp(date: Date) {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-export function numberOfTheDay(startWordDate: Date, date: Date): number {
+export function calcNumberOfTheDay(startWordDate: Date, date: Date): number {
   return diffInDays(date, startWordDate);
 }
 
@@ -24,6 +24,7 @@ export function solutionForDate({
   date: Date;
   startWordDate: Date;
 }): string {
-  const solutionIndex = numberOfTheDay(date, startWordDate) % solutions.length;
+  const solutionIndex =
+    calcNumberOfTheDay(date, startWordDate) % solutions.length;
   return solutions[solutionIndex];
 }
