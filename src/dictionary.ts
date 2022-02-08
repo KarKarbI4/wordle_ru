@@ -1,4 +1,5 @@
 export const dictionary = new Set([
+  "СЛОВО",
   "ТАКОЙ",
   "ОЧЕНЬ",
   "КАКОЙ",

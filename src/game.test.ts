@@ -43,6 +43,7 @@ describe("Test Game class", () => {
 
     game.commitAttempt("СОСЕД");
 
+    expect(game.status).toBe("in_progress");
     expect(mockedEventHandler).toHaveBeenCalledOnce();
     expect(mockedEventHandler).toBeCalledWith<
       [
@@ -74,6 +75,7 @@ describe("Test Game class", () => {
 
     game.commitAttempt("КОШКА");
 
+    expect(game.status).toBe("finished");
     expect(mockedEventHandler).toHaveBeenCalledOnce();
     expect(mockedEventHandler).toBeCalledWith<
       [
@@ -94,6 +96,7 @@ describe("Test Game class", () => {
 
     game.commitAttempt("ПУПОК");
 
+    expect(game.status).toBe("finished");
     expect(mockedEventHandler).toHaveBeenCalledOnce();
     expect(mockedEventHandler).toBeCalledWith<
       [

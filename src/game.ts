@@ -26,12 +26,14 @@ interface GameEvents {
   notindictionary: (options: { attemptIndex: number; attempt: string }) => void;
 }
 
+type GameStatus = "in_progress" | "finished";
+
 export class Game {
   keyboardState: KeyboardState;
   currentAttemptIndex: number;
   solution: string;
   maxAttempts: number;
-
+  status: GameStatus;
   private emitter = createNanoEvents<GameEvents>();
 
   constructor({
@@ -44,6 +46,7 @@ export class Game {
     this.currentAttemptIndex = currentAttemptIndex;
     this.solution = solution;
     this.maxAttempts = maxAttempts;
+    this.status = "in_progress";
   }
 
   on<E extends keyof GameEvents>(event: E, callback: GameEvents[E]) {
@@ -61,7 +64,9 @@ export class Game {
 
     if (attempt === this.solution) {
       this.emitter.emit("gamewin", { attemptIndex: this.currentAttemptIndex });
+      this.status = "finished";
     } else if (this.currentAttemptIndex >= this.maxAttempts - 1) {
+      this.status = "finished";
       this.emitter.emit("gamefail", { solution: this.solution });
     }
 

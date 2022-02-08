@@ -63,6 +63,11 @@ function updateGameStats(status: "win" | "fail") {
   saveGameStats(newStats);
 }
 
+function onGameFinish() {
+  deattachKeyboardProcessor();
+  modal.showModal();
+}
+
 game.on("attemptcommit", (event) => {
   gameField.setAttemptResult(event.attemptIndex, event.attemptResult);
   gameField.setAttempt({
@@ -72,26 +77,28 @@ game.on("attemptcommit", (event) => {
   setKeyboardState(event.keyboardState);
 });
 
+attachGameSessionStore({ game, startWordDate, currentDate });
+if (game.status === "finished") {
+  onGameFinish();
+}
+
 game.on("notindictionary", (event) => {
   notify("Такого слова нет в игре");
   gameField.rejectAttempt(event.attemptIndex);
 });
 
 game.on("gamefail", (event) => {
+  onGameFinish();
   notify(event.solution);
   updateGameStats("fail");
-  deattachKeyboardProcessor();
 });
 
 game.on("gamewin", (event) => {
+  onGameFinish();
   notify(
     ["Гениально!", "Восхитительно!", "Отлично!!", "Нормик!", "Пронесло!"][
       event.attemptIndex
     ]
   );
-  modal.showModal();
   updateGameStats("win");
-  deattachKeyboardProcessor();
 });
-
-attachGameSessionStore({ game, startWordDate, currentDate });
