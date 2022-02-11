@@ -1,3 +1,4 @@
+import { MAX_ATTEMPTS } from "./../constants";
 import { GameStats } from "../gameStats";
 
 function statsItem({ value, text }: { value: number; text: string }) {
@@ -20,15 +21,19 @@ function statsItem({ value, text }: { value: number; text: string }) {
 
 export function renderStats({ stats }: { stats: GameStats }): HTMLElement {
   const output = document.createElement("div");
-  output.appendChild(renderHeader());
+  output.classList.add("game-stats");
+
+  output.appendChild(renderHeader("Статистика"));
   output.appendChild(renderStatsMetrics({ stats }));
+  output.appendChild(renderHeader("Распределение попыток"));
+  output.appendChild(renderGuessDistribution({ stats }));
 
   return output;
 }
 
-function renderHeader() {
+function renderHeader(text: string) {
   const headerEl = document.createElement("div");
-  headerEl.innerText = "Статистика";
+  headerEl.innerText = text;
   headerEl.classList.add("game-stats__header");
   return headerEl;
 }
@@ -52,4 +57,52 @@ function renderStatsMetrics({ stats }: { stats: GameStats }): HTMLElement {
   );
 
   return statsContainer;
+}
+
+function renderGuessDistributionItem({
+  attemptsCount,
+  gamesCount,
+  rate,
+}: {
+  attemptsCount: number;
+  gamesCount: number;
+  rate: number;
+}): HTMLElement {
+  const container = document.createElement("div");
+  container.classList.add("guess-dist__item");
+
+  container.style.setProperty("--guess-distribution-metric-rate", `${rate}%`);
+
+  const idEl = document.createElement("span");
+  idEl.classList.add("guess-dist__item-id");
+  idEl.innerText = attemptsCount.toString();
+
+  const metricEl = document.createElement("div");
+  metricEl.classList.add("guess-dist__item-metric");
+  metricEl.innerText = gamesCount.toString();
+
+  container.appendChild(idEl);
+  container.appendChild(metricEl);
+
+  return container;
+}
+
+function renderGuessDistribution({ stats }: { stats: GameStats }): HTMLElement {
+  const container = document.createElement("div");
+  container.classList.add("guess-dist");
+  const maxGamesCount = Math.max(...Object.values(stats.guessDistribution));
+
+  for (let attemptsCount = 1; attemptsCount <= MAX_ATTEMPTS; attemptsCount++) {
+    const gamesCount = stats.guessDistribution[attemptsCount];
+    const rate = (gamesCount / maxGamesCount) * 100;
+
+    const item = renderGuessDistributionItem({
+      attemptsCount,
+      gamesCount,
+      rate,
+    });
+    container.appendChild(item);
+  }
+
+  return container;
 }

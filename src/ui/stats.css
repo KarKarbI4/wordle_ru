@@ -1,3 +1,7 @@
+.game-stats > *:not(:first-child) {
+  margin-top: 0.5rem;
+}
+
 .game-stats__metrics {
   display: flex;
 }
@@ -20,5 +24,25 @@
 .game-stats__header {
   font-size: 1.5rem;
   text-align: center;
-  margin-bottom: 0.5rem;
+}
+
+.guess-dist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.guess-dist__item {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.guess-dist__item-metric {
+  background-color: var(--gray-background-color);
+  color: var(--gray-text-color);
+  padding: 0.125rem 0.25rem;
+  min-width: fit-content;
+  text-align: end;
+  width: var(--guess-distribution-metric-rate, 0);
 }
