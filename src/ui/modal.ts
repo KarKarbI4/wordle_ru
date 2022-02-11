@@ -48,7 +48,9 @@ function renderStats({
   statsContainer.appendChild(
     statsItem({ value: stats.totalPlayed, text: "Played" })
   );
-  const winRate = Math.floor((stats.totalWins / stats.totalPlayed) * 100);
+  const winRate = stats.totalPlayed
+    ? Math.floor((stats.totalWins / stats.totalPlayed) * 100)
+    : 0;
   statsContainer.appendChild(statsItem({ value: winRate, text: "Win %" }));
   statsContainer.appendChild(
     statsItem({ value: stats.currentStreak, text: "Current Streak" })
