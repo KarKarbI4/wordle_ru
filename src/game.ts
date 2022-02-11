@@ -22,7 +22,7 @@ interface GameEvents {
     keyboardState: KeyboardState;
   }) => void;
   gamewin: (options: { attemptIndex: number }) => void;
-  gamefail: (options: { solution: string }) => void;
+  gamefail: (options: { solution: string; attemptIndex: number }) => void;
   notindictionary: (options: { attemptIndex: number; attempt: string }) => void;
 }
 
@@ -67,7 +67,10 @@ export class Game {
       this.status = "finished";
     } else if (this.currentAttemptIndex >= this.maxAttempts - 1) {
       this.status = "finished";
-      this.emitter.emit("gamefail", { solution: this.solution });
+      this.emitter.emit("gamefail", {
+        solution: this.solution,
+        attemptIndex: this.currentAttemptIndex,
+      });
     }
 
     const attemptResult = calculateAttemptResult({

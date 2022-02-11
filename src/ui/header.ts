@@ -1,8 +1,7 @@
-import { loadGameStats } from "../gameStats";
-import { showModal } from "./modal";
+import { showStatsModal } from "../showStatsModal";
 
 const statsButton = document.querySelector(".wordle-header__stats");
 
 statsButton?.addEventListener("click", () => {
-  showModal(loadGameStats());
+  showStatsModal();
 });

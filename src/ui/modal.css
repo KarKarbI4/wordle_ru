@@ -46,12 +46,6 @@
   padding-right: 2rem;
 }
 
-.modal-header {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
 .modal-close {
   position: absolute;
   right: 1rem;
@@ -65,23 +59,4 @@
 
 .modal-hidden-animate {
   animation: disappear-animation ease-out 300ms forwards;
-}
-
-.modal-stats {
-  display: flex;
-}
-
-.stats-item {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.stats-item__value {
-  font-size: 2rem;
-  text-align: center;
-}
-
-.stats-item__text {
-  text-align: center;
 }

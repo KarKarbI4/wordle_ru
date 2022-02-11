@@ -8,12 +8,12 @@ import {
   setKeyboardState,
 } from "./ui/virtualKeyboard";
 import { notify } from "./ui/notification";
-import * as modal from "./ui/modal";
 import { MAX_ATTEMPTS } from "./constants";
 import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
 import { calcNumberOfTheDay, solutionForDate } from "./solutionPicker";
 import { solutions } from "./solutions";
 import { attachGameSessionStore } from "./gameSessionStore";
+import { showStatsModal } from "./showStatsModal";
 
 const startWordDate = new Date(2022, 1, 6); // 6 марта 2022 года
 const currentDate = new Date();
@@ -24,6 +24,8 @@ const solution = solutionForDate({
   date: currentDate,
   startWordDate,
 });
+
+console.log(solution);
 
 const game = new Game({
   solution,
@@ -53,19 +55,26 @@ function onEnter(attempt: string) {
   return { success };
 }
 
-function updateGameStats(status: "win" | "fail") {
+function updateGameStats({
+  status,
+  attemptsCount,
+}: {
+  status: "win" | "fail";
+  attemptsCount: number;
+}) {
   const prevStats = loadGameStats();
   const newStats = calculateGameStats({
     status,
     currentState: prevStats,
     numberOfTheDay,
+    attemptsCount,
   });
   saveGameStats(newStats);
 }
 
 function onGameFinish() {
   deattachKeyboardProcessor();
-  modal.showModal(loadGameStats());
+  showStatsModal();
 }
 
 game.on("attemptcommit", (event) => {
@@ -88,17 +97,17 @@ game.on("notindictionary", (event) => {
 });
 
 game.on("gamefail", (event) => {
+  updateGameStats({ status: "fail", attemptsCount: event.attemptIndex + 1 });
   onGameFinish();
   notify(event.solution);
-  updateGameStats("fail");
 });
 
 game.on("gamewin", (event) => {
+  updateGameStats({ status: "win", attemptsCount: event.attemptIndex + 1 });
   onGameFinish();
   notify(
     ["Гениально!", "Восхитительно!", "Отлично!!", "Нормик!", "Пронесло!"][
       event.attemptIndex
     ]
   );
-  updateGameStats("win");
 });

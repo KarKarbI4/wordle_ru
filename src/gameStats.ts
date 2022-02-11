@@ -1,4 +1,3 @@
-import { GuessDistribution } from "./gameStats";
 export type GuessDistribution = {
   [key: number]: number;
 };

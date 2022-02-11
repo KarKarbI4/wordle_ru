@@ -3,6 +3,7 @@
 @import "./modal.css";
 @import "./notification.css";
 @import "./virtualKeyboard.css";
+@import "./stats.css";
 
 *,
 *::before,
