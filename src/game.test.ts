@@ -102,10 +102,12 @@ describe("Test Game class", () => {
       [
         {
           solution: string;
+          attemptIndex: number;
         }
       ]
     >({
       solution: "КОШКА",
+      attemptIndex: 5,
     });
   });
 

@@ -39,11 +39,9 @@ export function initAttempts(numberOfAttempts: number) {
 export function setAttempt({
   attempt,
   attemptIndex,
-  isInit = false,
 }: {
   attempt: string;
   attemptIndex: number;
-  isInit?: boolean;
 }) {
   const attemptEl = getAttemptEl(attemptIndex);
 
