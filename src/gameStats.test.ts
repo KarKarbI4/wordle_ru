@@ -13,11 +13,15 @@ describe("Test calculateGameStats", () => {
 
   test("Game win", () => {
     const currentState = {
-      numberOfTheDay: 0,
       totalPlayed: 5,
       totalWins: 10,
       currentStreak: 1,
       maxStreak: 1,
+      latestFinishedGame: {
+        attemptsCount: -1,
+        numberOfTheDay: 0,
+        status: "fail" as const,
+      },
       guessDistribution: defaultGuessDistribution,
     };
     expect(
@@ -28,11 +32,15 @@ describe("Test calculateGameStats", () => {
         attemptsCount: 4,
       })
     ).toEqual({
-      numberOfTheDay: 1,
       totalPlayed: 6,
       totalWins: 11,
       currentStreak: 2,
       maxStreak: 2,
+      latestFinishedGame: {
+        status: "win",
+        attemptsCount: 4,
+        numberOfTheDay: 1,
+      },
       guessDistribution: {
         1: 0,
         2: 0,
@@ -51,6 +59,11 @@ describe("Test calculateGameStats", () => {
       totalWins: 5,
       currentStreak: 50,
       maxStreak: 100,
+      latestFinishedGame: {
+        attemptsCount: -1,
+        numberOfTheDay: -1,
+        status: "fail" as const,
+      },
       guessDistribution: defaultGuessDistribution,
     };
     expect(
@@ -61,7 +74,11 @@ describe("Test calculateGameStats", () => {
         attemptsCount: 4,
       })
     ).toEqual({
-      numberOfTheDay: 1,
+      latestFinishedGame: {
+        numberOfTheDay: 1,
+        status: "fail",
+        attemptsCount: 4,
+      },
       totalPlayed: 4,
       totalWins: 5,
       currentStreak: 0,
@@ -77,6 +94,11 @@ describe("Test calculateGameStats", () => {
       totalWins: 10,
       currentStreak: 1,
       maxStreak: 1,
+      latestFinishedGame: {
+        attemptsCount: -1,
+        numberOfTheDay: -1,
+        status: "fail" as const,
+      },
       guessDistribution: defaultGuessDistribution,
     };
     expect(
@@ -87,11 +109,15 @@ describe("Test calculateGameStats", () => {
         numberOfTheDay: 2, // skipped 1 day
       })
     ).toEqual({
-      numberOfTheDay: 2,
       totalPlayed: 6,
       totalWins: 11,
       currentStreak: 1,
       maxStreak: 1,
+      latestFinishedGame: {
+        status: "win",
+        numberOfTheDay: 2,
+        attemptsCount: 4,
+      },
       guessDistribution: {
         1: 0,
         2: 0,

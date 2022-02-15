@@ -19,14 +19,20 @@ function statsItem({ value, text }: { value: number; text: string }) {
   return statsItemContainer;
 }
 
-export function renderStats({ stats }: { stats: GameStats }): HTMLElement {
+export function renderStats({
+  stats,
+  numberOfTheDay,
+}: {
+  stats: GameStats;
+  numberOfTheDay: number;
+}): HTMLElement {
   const output = document.createElement("div");
   output.classList.add("game-stats");
 
   output.appendChild(renderHeader("Статистика"));
   output.appendChild(renderStatsMetrics({ stats }));
   output.appendChild(renderHeader("Распределение попыток"));
-  output.appendChild(renderGuessDistribution({ stats }));
+  output.appendChild(renderGuessDistribution({ stats, numberOfTheDay }));
 
   return output;
 }
@@ -63,10 +69,12 @@ function renderGuessDistributionItem({
   attemptsCount,
   gamesCount,
   rate,
+  isCurrentWin,
 }: {
   attemptsCount: number;
   gamesCount: number;
   rate: number;
+  isCurrentWin: boolean;
 }): HTMLElement {
   const container = document.createElement("div");
   container.classList.add("guess-dist__item");
@@ -79,6 +87,9 @@ function renderGuessDistributionItem({
 
   const metricEl = document.createElement("div");
   metricEl.classList.add("guess-dist__item-metric");
+  if (isCurrentWin) {
+    metricEl.classList.add("guess-dist__item-metric_green");
+  }
   metricEl.innerText = gamesCount.toString();
 
   container.appendChild(idEl);
@@ -87,19 +98,31 @@ function renderGuessDistributionItem({
   return container;
 }
 
-function renderGuessDistribution({ stats }: { stats: GameStats }): HTMLElement {
+function renderGuessDistribution({
+  stats,
+  numberOfTheDay,
+}: {
+  stats: GameStats;
+  numberOfTheDay: number;
+}): HTMLElement {
   const container = document.createElement("div");
   container.classList.add("guess-dist");
   const maxGamesCount = Math.max(...Object.values(stats.guessDistribution));
+  const hasWinToday =
+    numberOfTheDay === stats.latestFinishedGame.numberOfTheDay &&
+    stats.latestFinishedGame.status === "win";
 
   for (let attemptsCount = 1; attemptsCount <= MAX_ATTEMPTS; attemptsCount++) {
     const gamesCount = stats.guessDistribution[attemptsCount];
     const rate = (gamesCount / maxGamesCount) * 100;
+    const isCurrentWin =
+      hasWinToday && attemptsCount === stats.latestFinishedGame.attemptsCount;
 
     const item = renderGuessDistributionItem({
       attemptsCount,
       gamesCount,
       rate,
+      isCurrentWin,
     });
     container.appendChild(item);
   }

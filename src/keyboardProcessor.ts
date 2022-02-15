@@ -14,8 +14,6 @@ export function attachKeyboardProcessor({
 }: KeyboardProcessorOptions) {
   let currentAttempt = "";
 
-  const resetAttempt = () => (currentAttempt = "");
-
   const unsubscribe = eventBus.on("syntheticinput", (key) => {
     const isLimit = currentAttempt.length >= ATTEMPT_LENGTH;
 

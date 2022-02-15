@@ -1,3 +1,4 @@
+import { currentDate, startWordDate, numberOfTheDay } from "./numberOfTheDay";
 import "./ui/main";
 import { attachKeyboardProcessor } from "./keyboardProcessor";
 import { Game } from "./game";
@@ -10,14 +11,10 @@ import {
 import { notify } from "./ui/notification";
 import { MAX_ATTEMPTS } from "./constants";
 import { calculateGameStats, loadGameStats, saveGameStats } from "./gameStats";
-import { calcNumberOfTheDay, solutionForDate } from "./solutionPicker";
+import { solutionForDate } from "./solutionPicker";
 import { solutions } from "./solutions";
 import { attachGameSessionStore } from "./gameSessionStore";
 import { showStatsModal } from "./showStatsModal";
-
-const startWordDate = new Date(2022, 1, 6); // 6 марта 2022 года
-const currentDate = new Date();
-const numberOfTheDay = calcNumberOfTheDay(startWordDate, currentDate);
 
 const solution = solutionForDate({
   solutions,

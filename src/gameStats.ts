@@ -7,7 +7,11 @@ export type GameStats = {
   totalWins: number;
   currentStreak: number;
   maxStreak: number;
-  numberOfTheDay?: number;
+  latestFinishedGame: {
+    numberOfTheDay: number;
+    attemptsCount: number;
+    status: "win" | "fail";
+  };
   guessDistribution: GuessDistribution;
 };
 
@@ -31,6 +35,11 @@ export function loadGameStats(): GameStats {
     totalWins: 0,
     currentStreak: 0,
     maxStreak: 0,
+    latestFinishedGame: {
+      numberOfTheDay: -1,
+      attemptsCount: -1,
+      status: "fail",
+    },
     guessDistribution: defaultGuessDistribution,
   };
 }
@@ -58,8 +67,7 @@ export function calculateGameStats({
   let currentStreak: number;
   if (status === "win") {
     const isNextDay =
-      currentState.numberOfTheDay !== undefined &&
-      numberOfTheDay === currentState.numberOfTheDay + 1;
+      numberOfTheDay === currentState.latestFinishedGame.numberOfTheDay + 1;
     currentStreak = isNextDay ? currentState.currentStreak + 1 : 1;
   } else {
     currentStreak = 0;
@@ -78,7 +86,11 @@ export function calculateGameStats({
     totalWins,
     currentStreak,
     maxStreak,
-    numberOfTheDay,
+    latestFinishedGame: {
+      numberOfTheDay,
+      attemptsCount,
+      status,
+    },
     guessDistribution,
   };
 }

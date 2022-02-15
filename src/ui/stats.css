@@ -46,3 +46,7 @@
   text-align: end;
   width: var(--guess-distribution-metric-rate, 0);
 }
+
+.guess-dist__item-metric_green {
+  background-color: var(--green-background-color);
+}
