@@ -50,3 +50,9 @@
 .guess-dist__item-metric_green {
   background-color: var(--green-background-color);
 }
+
+.game-stats__ticker {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}

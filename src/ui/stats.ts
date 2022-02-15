@@ -1,5 +1,6 @@
 import { MAX_ATTEMPTS } from "./../constants";
 import { GameStats } from "../gameStats";
+import { renderWordleTicker } from "./wordleTicker";
 
 function statsItem({ value, text }: { value: number; text: string }) {
   const valueElement = document.createElement("span");
@@ -33,6 +34,10 @@ export function renderStats({
   output.appendChild(renderStatsMetrics({ stats }));
   output.appendChild(renderHeader("Распределение попыток"));
   output.appendChild(renderGuessDistribution({ stats, numberOfTheDay }));
+
+  if (stats.latestFinishedGame.numberOfTheDay === numberOfTheDay) {
+    output.appendChild(renderTicker());
+  }
 
   return output;
 }
@@ -128,4 +133,18 @@ function renderGuessDistribution({
   }
 
   return container;
+}
+
+function renderTicker() {
+  const tickerConainer = document.createElement("div");
+
+  const header = renderHeader("Новое Словло");
+
+  const ticker = renderWordleTicker();
+  ticker.classList.add("game-stats__ticker");
+
+  tickerConainer.appendChild(header);
+  tickerConainer.appendChild(ticker);
+
+  return tickerConainer;
 }
