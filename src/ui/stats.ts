@@ -49,17 +49,17 @@ function renderStatsMetrics({ stats }: { stats: GameStats }): HTMLElement {
   statsContainer.classList.add("game-stats__metrics");
 
   statsContainer.appendChild(
-    statsItem({ value: stats.totalPlayed, text: "Played" })
+    statsItem({ value: stats.totalPlayed, text: "Сыграно" })
   );
   const winRate = stats.totalPlayed
     ? Math.floor((stats.totalWins / stats.totalPlayed) * 100)
     : 0;
-  statsContainer.appendChild(statsItem({ value: winRate, text: "Win %" }));
+  statsContainer.appendChild(statsItem({ value: winRate, text: "Побед %" }));
   statsContainer.appendChild(
-    statsItem({ value: stats.currentStreak, text: "Current Streak" })
+    statsItem({ value: stats.currentStreak, text: "Текущая серия" })
   );
   statsContainer.appendChild(
-    statsItem({ value: stats.maxStreak, text: "Max Streak" })
+    statsItem({ value: stats.maxStreak, text: "Макс. серия" })
   );
 
   return statsContainer;

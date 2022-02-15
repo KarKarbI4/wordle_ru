@@ -2,6 +2,7 @@
   height: fit-content;
   position: relative;
   width: 90%;
+  max-width: calc(500px * 0.9);
 }
 
 .modal-backdrop {
