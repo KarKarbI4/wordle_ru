@@ -55,4 +55,24 @@
   font-size: 2rem;
   text-align: center;
   margin-top: 0.5rem;
+  flex: auto 1 0;
+}
+
+.game-stats__share-button {
+  all: unset;
+  background-color: var(--green-background-color);
+  text-align: center;
+  padding: 1rem 1rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  color: var(--green-text-color);
+
+  flex: auto 1 0;
+}
+
+.game-stats__finished-game-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
 }

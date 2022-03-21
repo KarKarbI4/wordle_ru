@@ -1,6 +1,7 @@
 import { MAX_ATTEMPTS } from "./../constants";
-import { GameStats } from "../gameStats";
+import type { GameStats } from "../gameStats";
 import { renderWordleTicker } from "./wordleTicker";
+import type { GameSessionStore } from "../gameSessionStore";
 
 function statsItem({ value, text }: { value: number; text: string }) {
   const valueElement = document.createElement("span");
@@ -23,9 +24,11 @@ function statsItem({ value, text }: { value: number; text: string }) {
 export function renderStats({
   stats,
   numberOfTheDay,
+  gameSession,
 }: {
   stats: GameStats;
   numberOfTheDay: number;
+  gameSession: GameSessionStore;
 }): HTMLElement {
   const output = document.createElement("div");
   output.classList.add("game-stats");
@@ -36,7 +39,7 @@ export function renderStats({
   output.appendChild(renderGuessDistribution({ stats, numberOfTheDay }));
 
   if (stats.latestFinishedGame.numberOfTheDay === numberOfTheDay) {
-    output.appendChild(renderTicker());
+    output.appendChild(renderFinishedGameBlock());
   }
 
   return output;
@@ -135,16 +138,36 @@ function renderGuessDistribution({
   return container;
 }
 
+function renderFinishedGameBlock() {
+  const container = document.createElement("div");
+  container.classList.add("game-stats__finished-game-container");
+
+  container.appendChild(renderTicker());
+  container.appendChild(renderShareButton());
+
+  return container;
+}
+
 function renderTicker() {
   const tickerConainer = document.createElement("div");
 
   const header = renderHeader("Новое Словло");
 
   const ticker = renderWordleTicker();
-  ticker.classList.add("game-stats__ticker");
 
+  tickerConainer.classList.add("game-stats__ticker");
   tickerConainer.appendChild(header);
   tickerConainer.appendChild(ticker);
 
   return tickerConainer;
+}
+
+function renderShareButton() {
+  const element = document.createElement("button");
+  element.innerText = "Поделиться";
+  element.classList.add("game-stats__share-button");
+  element.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  return element;
 }

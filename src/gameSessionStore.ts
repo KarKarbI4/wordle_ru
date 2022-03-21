@@ -2,7 +2,7 @@ import { Game } from "./game";
 import { calcNumberOfTheDay } from "./solutionPicker";
 import { initAttempts } from "./ui/gameField";
 
-type GameSessionStore = {
+export type GameSessionStore = {
   attempts: string[];
   numberOfTheDay: number;
 };

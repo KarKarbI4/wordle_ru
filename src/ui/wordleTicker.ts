@@ -22,7 +22,8 @@ function formatMs(ms: number) {
   return `${zeroed(hours)}:${zeroed(minutes)}:${zeroed(seconds)}`;
 }
 
-const globalInterval = setInterval(() => updateTickerElements(), 1000);
+setInterval(() => updateTickerElements(), 1000);
+
 let tickers: HTMLElement[] = [];
 
 function updateTickerElements() {
