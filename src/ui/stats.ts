@@ -2,6 +2,7 @@ import { MAX_ATTEMPTS } from "./../constants";
 import type { GameStats } from "../gameStats";
 import { renderWordleTicker } from "./wordleTicker";
 import type { GameSessionStore } from "../gameSessionStore";
+import { shareGameResult } from "../shareGameResult";
 
 function statsItem({ value, text }: { value: number; text: string }) {
   const valueElement = document.createElement("span");
@@ -24,11 +25,9 @@ function statsItem({ value, text }: { value: number; text: string }) {
 export function renderStats({
   stats,
   numberOfTheDay,
-  gameSession,
 }: {
   stats: GameStats;
   numberOfTheDay: number;
-  gameSession: GameSessionStore;
 }): HTMLElement {
   const output = document.createElement("div");
   output.classList.add("game-stats");
@@ -168,6 +167,8 @@ function renderShareButton() {
   element.classList.add("game-stats__share-button");
   element.addEventListener("click", (e) => {
     e.stopPropagation();
+    e.preventDefault();
+    shareGameResult();
   });
   return element;
 }

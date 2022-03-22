@@ -1,9 +1,10 @@
-import { Game } from "./game";
+import type { Game, AttemptResult } from "./game";
 import { calcNumberOfTheDay } from "./solutionPicker";
 import { initAttempts } from "./ui/gameField";
 
 export type GameSessionStore = {
   attempts: string[];
+  attemptResults: AttemptResult[];
   numberOfTheDay: number;
 };
 
@@ -11,7 +12,7 @@ function saveGameSession(gameSession: GameSessionStore): void {
   localStorage.setItem("game_session", JSON.stringify(gameSession));
 }
 
-function loadGameSession(): GameSessionStore | null {
+export function loadGameSession(): GameSessionStore | null {
   const gameSessionString = localStorage.getItem("game_session");
   if (gameSessionString) {
     return JSON.parse(gameSessionString);
@@ -45,12 +46,14 @@ export function attachGameSessionStore({
     prevGameSession = null;
   }
 
-  game.on("attemptcommit", ({ attempt }) => {
+  game.on("attemptcommit", ({ attempt, attemptResult }) => {
     if (prevGameSession) {
       prevGameSession.attempts.push(attempt);
+      prevGameSession.attemptResults.push(attemptResult);
     } else {
       prevGameSession = {
         attempts: [attempt],
+        attemptResults: [attemptResult],
         numberOfTheDay: calcNumberOfTheDay(startWordDate, currentDate),
       };
     }

@@ -31,12 +31,12 @@
   font-family: sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #000;
     --letter-outline-color: grey;
   }
-}
+} */
 
 html {
   height: 100%;
