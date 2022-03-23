@@ -89,7 +89,7 @@ if (game.status === "finished") {
 }
 
 game.on("notindictionary", (event) => {
-  notify("Такого слова нет в игре");
+  notify("Такого слова нет в словаре");
   gameField.rejectAttempt(event.attemptIndex);
 });
 

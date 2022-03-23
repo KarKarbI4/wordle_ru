@@ -11,7 +11,7 @@
 
 .attempt {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .attempt_init {
@@ -19,7 +19,7 @@
 }
 
 .attempt:not(:last-child) {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .attempt-shake {
@@ -96,7 +96,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
+  font-weight: bold;
+  font-size: 2.125rem;
 }
 
 @keyframes pop {
