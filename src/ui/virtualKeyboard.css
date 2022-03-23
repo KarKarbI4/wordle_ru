@@ -24,6 +24,7 @@
   padding: 0 1%;
   text-transform: uppercase;
   font-weight: bold;
+  color: var(--text-color);
 }
 
 .keyboard-key:not(:last-child) {
