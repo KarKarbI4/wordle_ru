@@ -4,6 +4,7 @@
 @import "./notification.css";
 @import "./virtualKeyboard.css";
 @import "./stats.css";
+@import "./rules.css";
 
 *,
 *::before,
@@ -70,4 +71,12 @@ body {
   min-height: 100%;
   max-width: 500px;
   margin: 0 auto;
+}
+
+a {
+  color: var(--text-color);
+}
+
+a:visited {
+  color: unset;
 }

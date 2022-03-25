@@ -13,7 +13,9 @@
   <body>
     <div class="container">
       <div class="wordle-header">
-        <div class="wordle-header__left"></div>
+        <div class="wordle-header__left">
+          <button class="wordle-header__rules">❓</button>
+        </div>
         <h1 class="wordle-header-text">СЛОВЛО</h1>
         <div class="wordle-header__right">
           <button class="wordle-header__stats">📊</button>
@@ -107,13 +109,95 @@
         </div>
       </div>
     </div>
-    <div id="endGameModal" class="modal-backdrop modal-hidden">
-      <div class="modal">
-        <div class="modal-content">
-          <div class="modal-close">❌</div>
+    <div id="modals-container"></div>
+    <template id="game-modal">
+      <div class="modal-backdrop modal-hidden">
+        <div class="modal">
+          <div class="modal-content">
+            <div class="modal-close">❌</div>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
+    <template id="rules-modal-content">
+      <div>
+        <div class="rules-header">Как играть</div>
+        <div class="rules-content">
+          <p>Отгадай <b>СЛОВЛО</b> за 6 попыток.</p>
+          <p>Каждая догадка должна быть допустимым словом из пяти букв.</p>
+          <p>Нажми "Enter", чтобы проверить догадку.</p>
+          <p>
+            После каждой догадки цвет квадрата будет меняться, чтобы отобразить
+            насколько догадка близка к загаданому слову.
+          </p>
+          <hr />
+          <p><b>Пример</b></p>
+          <div class="attempt rules-attempt">
+            <div class="letter letter-reveal letter-green">
+              <div class="letter-inner">А</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Р</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Б</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">У</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">З</div>
+            </div>
+          </div>
+          <p>Буква <b>А</b> есть в слове и находится на верном месте.</p>
+          <div class="attempt rules-attempt">
+            <div class="letter">
+              <div class="letter-inner">В</div>
+            </div>
+            <div class="letter letter-reveal letter-yellow">
+              <div class="letter-inner">О</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Р</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">О</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Х</div>
+            </div>
+          </div>
+          <p>Буква <b>О</b> есть в слове, но на другом месте.</p>
+          <div class="attempt rules-attempt">
+            <div class="letter">
+              <div class="letter-inner">Ё</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Р</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">Ш</div>
+            </div>
+            <div class="letter letter-reveal letter-gray">
+              <div class="letter-inner">И</div>
+            </div>
+            <div class="letter">
+              <div class="letter-inner">К</div>
+            </div>
+          </div>
+          <p>Буквы <b>И</b> нет в загаданом слове.</p>
+          <hr />
+          <b>Новое СЛОВЛО доступно каждый день!</b>
+          <br />
+          <div class="rules-footer">
+            <a href="https://github.com/KarKarbI4/wordle_ru" target="_blank"
+              >Github</a
+            >
+          </div>
+        </div>
+      </div>
+    </template>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

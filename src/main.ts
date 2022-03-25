@@ -15,6 +15,7 @@ import { solutionForDate } from "./solutionPicker";
 import { solutions } from "./solutions";
 import { attachGameSessionStore } from "./gameSessionStore";
 import { showStatsModal } from "./showStatsModal";
+import { showRulesOnStart } from "./showRulesOnStart";
 
 const solution = solutionForDate({
   solutions,
@@ -108,3 +109,5 @@ game.on("gamewin", (event) => {
     ]
   );
 });
+
+showRulesOnStart();

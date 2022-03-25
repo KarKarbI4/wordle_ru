@@ -1,44 +1,51 @@
 import { applyAnimationOnce } from "./lib/applyAnimationOnce";
+import { createInstanceOfTemplate } from "./lib/createInstanceOfTemplate";
 
-const crossElement = document.querySelector(".modal-close");
-
-crossElement?.addEventListener("click", () => {
-  closeModal();
-});
-
-const backdropElement = document.querySelector(".modal-backdrop");
-
-backdropElement?.addEventListener("click", () => {
-  closeModal();
-});
-
-export function showModal(content: HTMLElement) {
-  const modal = document.querySelector<HTMLElement>("#endGameModal");
+function createNewModal() {
+  const modal = createInstanceOfTemplate("#game-modal");
   if (!modal) {
-    return;
+    throw new Error("Failed to create modal");
   }
 
-  const contentContainer = modal.querySelector<HTMLElement>(".modal-content")!;
-
-  if (contentContainer.lastChild) {
-    contentContainer.removeChild(contentContainer.lastChild);
+  const modalsContainer = document.querySelector("#modals-container");
+  if (!modalsContainer) {
+    throw new Error("Failed to find modals container");
   }
-  contentContainer.appendChild(content);
 
+  modalsContainer.appendChild(modal);
   modal.classList.remove("modal-hidden", "modal-hidden-animate");
+
+  return modal;
 }
 
-export async function closeModal() {
-  const modal = document.querySelector<HTMLElement>("#endGameModal");
+export async function openModal(content: HTMLElement): Promise<void> {
+  return new Promise((resolve) => {
+    const modal = createNewModal();
+    const contentContainer = modal.querySelector(".modal-content")!;
+    contentContainer.appendChild(content);
 
-  if (!modal) {
-    throw new Error("Modal element not found");
-  }
+    async function closeModal() {
+      if (!modal) {
+        throw new Error("Failed to close modal");
+      }
 
-  await applyAnimationOnce(
-    modal,
-    "modal-hidden-animate",
-    "disappear-animation"
-  );
-  modal.classList.add("modal-hidden");
+      await applyAnimationOnce(
+        modal,
+        "modal-hidden-animate",
+        "disappear-animation"
+      );
+      modal.classList.add("modal-hidden");
+      modal.remove();
+      resolve();
+    }
+
+    const crossElement = modal.querySelector(".modal-close");
+    crossElement?.addEventListener("click", () => {
+      closeModal();
+    });
+
+    modal?.addEventListener("click", () => {
+      closeModal();
+    });
+  });
 }

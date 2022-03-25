@@ -25,7 +25,8 @@
   top: 0;
 }
 
-.wordle-header__stats {
+.wordle-header__stats,
+.wordle-header__rules {
   all: unset;
   font-size: 1.5rem;
   line-height: 2.5rem;
