@@ -104,9 +104,14 @@ game.on("gamewin", (event) => {
   updateGameStats({ status: "win", attemptsCount: event.attemptIndex + 1 });
   onGameFinish();
   notify(
-    ["Гениально!", "Восхитительно!", "Отлично!!", "Нормик!", "Пронесло!"][
-      event.attemptIndex
-    ]
+    [
+      "Гениально!",
+      "Восхитительно!",
+      "Отлично!",
+      "Хорошо!",
+      "Было близко!",
+      "Пронесло!",
+    ][event.attemptIndex]
   );
 });
 
