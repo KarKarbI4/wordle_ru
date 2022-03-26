@@ -23,8 +23,6 @@ const solution = solutionForDate({
   startWordDate,
 });
 
-console.log(solution);
-
 const game = new Game({
   solution,
   keyboardState: {},
@@ -40,9 +38,7 @@ const deattachKeyboardProcessor = attachKeyboardProcessor({
   lettersLimitCallback: onLettersLimitCallback,
 });
 
-function onLettersLimitCallback() {
-  console.log("ПЕРЕСТАНЬ НАБИРАТЬ");
-}
+function onLettersLimitCallback() {}
 
 function onLetterType(attempt: string) {
   gameField.setAttempt({ attempt, attemptIndex: game.currentAttemptIndex });
