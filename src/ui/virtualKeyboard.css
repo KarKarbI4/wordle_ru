@@ -16,7 +16,7 @@
 .keyboard-key {
   font: inherit;
   text-align: center;
-  line-height: 3rem;
+  line-height: 3.5rem;
   background: var(--keyboard-key-default-background-color);
   border: 0;
   border-radius: 0.25rem;
@@ -25,6 +25,7 @@
   text-transform: uppercase;
   font-weight: bold;
   color: var(--text-color);
+  max-width: 2.25rem;
 }
 
 .keyboard-key:not(:last-child) {
