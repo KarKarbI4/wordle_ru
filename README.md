@@ -1,5 +1,7 @@
 # Wordle RU
 
+Game link: https://karkarbi4.github.io/wordle_ru/
+
 ## Description
 
 Wordle clone in Russian.
