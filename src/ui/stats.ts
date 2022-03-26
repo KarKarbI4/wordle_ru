@@ -1,7 +1,6 @@
 import { MAX_ATTEMPTS } from "./../constants";
 import type { GameStats } from "../gameStats";
 import { renderWordleTicker } from "./wordleTicker";
-import type { GameSessionStore } from "../gameSessionStore";
 import { shareGameResult } from "../shareGameResult";
 
 function statsItem({ value, text }: { value: number; text: string }) {
