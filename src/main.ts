@@ -68,7 +68,7 @@ function updateGameStats({
 
 function onGameFinish() {
   deattachKeyboardProcessor();
-  showStatsModal();
+  setTimeout(() => {showStatsModal();}, 1000)
 }
 
 game.on("attemptcommit", (event) => {
