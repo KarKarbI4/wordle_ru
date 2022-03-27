@@ -16,6 +16,7 @@ import { solutions } from "./solutions";
 import { attachGameSessionStore } from "./gameSessionStore";
 import { showStatsModal } from "./showStatsModal";
 import { showRulesOnStart } from "./showRulesOnStart";
+import { sendAnalyticsEvent } from "./analytics";
 
 const solution = solutionForDate({
   solutions,
@@ -67,8 +68,11 @@ function updateGameStats({
 }
 
 function onGameFinish() {
+  sendAnalyticsEvent("game_finish");
   deattachKeyboardProcessor();
-  setTimeout(() => {showStatsModal();}, 1000)
+  setTimeout(() => {
+    showStatsModal();
+  }, 1000);
 }
 
 game.on("attemptcommit", (event) => {
@@ -94,6 +98,7 @@ game.on("gamefail", (event) => {
   updateGameStats({ status: "fail", attemptsCount: event.attemptIndex + 1 });
   onGameFinish();
   notify(event.solution);
+  sendAnalyticsEvent("game_fail");
 });
 
 game.on("gamewin", (event) => {
@@ -109,6 +114,7 @@ game.on("gamewin", (event) => {
       "Пронесло!",
     ][event.attemptIndex]
   );
+  sendAnalyticsEvent("game_win");
 });
 
 showRulesOnStart();
