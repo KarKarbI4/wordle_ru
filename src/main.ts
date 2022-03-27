@@ -68,7 +68,6 @@ function updateGameStats({
 }
 
 function onGameFinish() {
-  sendAnalyticsEvent("game_finish");
   deattachKeyboardProcessor();
   setTimeout(() => {
     showStatsModal();
@@ -99,6 +98,7 @@ game.on("gamefail", (event) => {
   onGameFinish();
   notify(event.solution);
   sendAnalyticsEvent("game_fail");
+  sendAnalyticsEvent("game_finish");
 });
 
 game.on("gamewin", (event) => {
@@ -115,6 +115,7 @@ game.on("gamewin", (event) => {
     ][event.attemptIndex]
   );
   sendAnalyticsEvent("game_win");
+  sendAnalyticsEvent("game_finish");
 });
 
 showRulesOnStart();
