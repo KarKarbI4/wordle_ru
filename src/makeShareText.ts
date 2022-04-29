@@ -19,7 +19,10 @@ export function makeShareText({
     status === "win" ? attemptResults.length.toString() : "x";
   const header = `СЛОВЛО ${numberOfTheDay} ${attemptIndicator}/6`;
   const body = attemptsToEmoji(attemptResults);
-  return `${header}\n\n${body}\n\n`;
+  const link = document.location.origin + document.location.pathname;
+
+  const footer = `Ссылка на игру:\n${link}`;
+  return `${header}\n\n${body}\n\n${footer}\n\n`;
 }
 
 function attemptsToEmoji(attemptResults: AttemptResult[]): string {
