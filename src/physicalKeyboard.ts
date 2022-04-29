@@ -33,10 +33,12 @@ const layoutMapping: Record<number, string> = {
   77: "ь",
   188: "б",
   190: "ю",
+  192: "ё",
 };
 
 export function attachPhysicalKeyboardListeners() {
   window.addEventListener("keydown", (e) => {
+    console.log(e.keyCode);
     if (
       e.key === "Backspace" ||
       e.key === "Enter" ||
