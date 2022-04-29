@@ -9,6 +9,7 @@
   --transform: translateX(-50%);
   transform: var(--transform);
   animation: slide 1s;
+  z-index: 100;
 }
 
 @keyframes slide {
