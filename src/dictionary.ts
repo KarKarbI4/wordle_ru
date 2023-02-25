@@ -2396,4 +2396,5 @@ export const dictionary = new Set([
   "ЛОГИН",
   "ПУКИЧ",
   "КАПЕЦ",
+  "АНЮТА",
 ]);
